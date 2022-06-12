@@ -1,9 +1,9 @@
 import "./Nav.css";
 
-const Nav = ({ handleShow, cart, show, handleClose }) => {
+const Nav = ({ handleCart, cart }) => {
 
   return (
-    <nav show={show} onHide={handleClose}>
+    <nav>
       <div className='nav__left'>Store</div>
       <div className='nav__middle'>
         <div className='input__wrapper'>
@@ -16,7 +16,7 @@ const Nav = ({ handleShow, cart, show, handleClose }) => {
           <i
             className='fa fa-shopping-cart'
             aria-hidden='true'
-            onClick={handleShow}
+            onClick={() => handleCart(true)}
           />
           {cart.length > 0 && (
             <span className="bg-blue-700 text-white w-5 h-5 rounded-full absolute -top-4 left-2 text-center leading-5 ">

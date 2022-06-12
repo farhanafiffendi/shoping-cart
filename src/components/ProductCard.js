@@ -1,7 +1,7 @@
 import "./ProductCard.css";
 import convertRupiah from 'rupiah-format'
 
-const ProductCard = ({ product, addProductToCart }) => {
+const ProductCard = ({ product, handleAddToCart }) => {
   // const { addToCart } = useContext(CartContext);
 
   return (
@@ -16,7 +16,7 @@ const ProductCard = ({ product, addProductToCart }) => {
         </div>
         <button
           className='ProductCard__button'
-          onClick={() => addProductToCart(product)}
+          onClick={() => handleAddToCart(product)}
         >
           Add to basket
         </button>

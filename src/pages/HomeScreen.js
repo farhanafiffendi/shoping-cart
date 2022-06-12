@@ -5,29 +5,39 @@ import { API } from '../config/api';
 import Spinner from 'react-bootstrap/Spinner';
 import Nav from '../components/Nav';
 import { ShoppingCartContext } from '../App';
+import Cart from '../components/Cart';
+import '../index.css';
 import {
-  Button,
-  Container,
-  Row,
-  Col,
-  Card,
-  Form,
   ToastContainer,
   Toast,
 } from "react-bootstrap";
 
 const HomeScreen = () => {
 
-  const addProductToCart = (product) => {
-    setCart([...cart, { ...product }]);
-    setShowToast(true);
-  };
-
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
   const [showToast, setShowToast] = useState(false);
+  const [showCart, setShowCart] = useState(false);
   const [cart, setCart] = useContext(ShoppingCartContext);
   console.log(cart);
+
+  const handleCart = () => setShowCart(true);
+  const handleHideCart = () => setShowCart(false)
+
+  const handleAddToCart = (product) => {
+    setCart((prev) => {
+      const findProductInCart = prev.find((item) => item.id === product.id);
+
+      if (findProductInCart) {
+        return prev.map((item) =>
+          item.id === product.id ? { ...item, amount: item.amount + 1 } : item
+        );
+      }
+
+      //Firt
+      return [...prev, { ...product, amount: 1 }];
+    });
+  };
 
   const config = {
     method: "GET",
@@ -67,15 +77,22 @@ const HomeScreen = () => {
           <Toast.Body>Product added to cart.</Toast.Body>
         </Toast>
       </ToastContainer>
-      <Nav cart={cart} />
+      <Nav cart={cart} handleCart={handleCart} />
       <div className='products__wrapper'>
         {loading && <Spinner animation="border" />}
         {posts.map((product) => (
           <ProductCard key={product.id}
             product={product}
-            addProductToCart={addProductToCart} />
+            handleAddToCart={handleAddToCart} />
         ))}
       </div>
+      {showCart && (
+        <Cart
+          cart={cart}
+          showCart={showCart}
+          handleHideCart={handleHideCart}
+        />
+      )}
     </>
 
   );
