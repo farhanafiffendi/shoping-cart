@@ -19,12 +19,10 @@ const Nav = ({ handleCart, cart }) => {
             onClick={() => handleCart(true)}
           />
           {cart.length > 0 && (
-            <span className="bg-blue-700 text-white w-5 h-5 rounded-full absolute -top-4 left-2 text-center leading-5 ">
+            <div className="item__count">
               {cart.length}
-            </span>
+            </div>
           )}
-          <div className='item__count'>
-          </div>
         </div>
       </div>
     </nav>
