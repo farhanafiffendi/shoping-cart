@@ -35,6 +35,7 @@ const HomeScreen = () => {
       }
 
       //Firt
+      setShowToast(true)
       return [...prev, { ...product, amount: 1 }];
     });
   };
