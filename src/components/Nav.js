@@ -1,12 +1,9 @@
 import "./Nav.css";
-import { useContext } from "react";
-import CartContext from "../context/cart/CartContext";
 
-const Nav = () => {
-  const { cartItems, showHideCart } = useContext(CartContext);
+const Nav = ({ handleShow, cart, show, handleClose }) => {
 
   return (
-    <nav>
+    <nav show={show} onHide={handleClose}>
       <div className='nav__left'>Store</div>
       <div className='nav__middle'>
         <div className='input__wrapper'>
@@ -19,13 +16,15 @@ const Nav = () => {
           <i
             className='fa fa-shopping-cart'
             aria-hidden='true'
-            onClick={showHideCart}
+            onClick={handleShow}
           />
-          {cartItems.length > 0 && (
-            <div className='item__count'>
-              <span>{cartItems.length}</span>
-            </div>
+          {cart.length > 0 && (
+            <span className="bg-blue-700 text-white w-5 h-5 rounded-full absolute -top-4 left-2 text-center leading-5 ">
+              {cart.length}
+            </span>
           )}
+          <div className='item__count'>
+          </div>
         </div>
       </div>
     </nav>
