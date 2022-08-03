@@ -1,12 +1,32 @@
-import { useContext } from "react";
 import "./Cart.css";
-import CartContext from "../context/cart/CartContext";
+import React, { useContext } from 'react'
+import CartItem from './CartItem'
 import convertRupiah from 'rupiah-format'
-import CartItem from "./CartItem";
+import { ShoppingCartContext } from '../App'
 
-const Cart = () => {
-  const { showCart, cartItems, showHideCart } = useContext(CartContext);
+const Cart = ({ showCart, handleHideCart }) => {
 
+  const [cart, setCart] = useContext(ShoppingCartContext);
+
+  const total = (arr) => {
+    return arr.reduce((cal, item) => {
+      return cal + item.price * item.amount;
+    }, 0);
+  };
+
+  const removeItem = (id) => {
+    setCart((prev) => {
+      return prev.reduce((cal, item) => {
+        if (item.id === id) {
+          if (item.amount === 1) return cal;
+
+          return [...cal, { ...item, amount: item.amount - 1 }];
+        }
+
+        return [...cal, { ...item }];
+      }, []);
+    });
+  };
   return (
     <>
       {showCart && (
@@ -16,16 +36,16 @@ const Cart = () => {
               style={{ cursor: "pointer" }}
               className='fa fa-times-circle'
               aria-hidden='true'
-              onClick={showHideCart}
+              onClick={handleHideCart}
             ></i>
           </div>
           <div className='cart__innerWrapper'>
-            {cartItems.length === 0 ? (
+            {cart.length === 0 ? (
               <h4>Cart is Empty</h4>
             ) : (
               <ul>
-                {cartItems.map((item) => (
-                  <CartItem key={item._id} item={item} />
+                {cart.map((item) => (
+                  <CartItem key={item._id} item={item} removeItem={removeItem} />
                 ))}
               </ul>
             )}
@@ -34,9 +54,7 @@ const Cart = () => {
             <div>Cart Total</div>
             <div></div>
             <div style={{ marginLeft: 5 }}>
-              {convertRupiah.convert(
-                cartItems.reduce((amount, item) => item.price + amount, 0)
-              )}
+              {convertRupiah.convert(total(cart))}
             </div>
           </div>
         </div>

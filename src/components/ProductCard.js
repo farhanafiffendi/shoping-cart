@@ -1,11 +1,8 @@
-import { useContext } from "react";
 import "./ProductCard.css";
 import convertRupiah from 'rupiah-format'
-import Rating from "./Rating";
-import CartContext from "../context/cart/CartContext";
 
-const ProductCard = ({ product }) => {
-  const { addToCart } = useContext(CartContext);
+const ProductCard = ({ product, handleAddToCart }) => {
+  // const { addToCart } = useContext(CartContext);
 
   return (
     <div className='productCard__wrapper'>
@@ -16,14 +13,10 @@ const ProductCard = ({ product }) => {
           <h5>{convertRupiah.convert(product.price)}</h5>
         </div>
         <div className='ProductCard__Rateing'>
-          <Rating
-            value={product.rating}
-            text={`${product.numReviews} reviews`}
-          />
         </div>
         <button
           className='ProductCard__button'
-          onClick={() => addToCart(product)}
+          onClick={() => handleAddToCart(product)}
         >
           Add to basket
         </button>

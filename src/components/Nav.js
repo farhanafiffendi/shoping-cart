@@ -1,9 +1,6 @@
 import "./Nav.css";
-import { useContext } from "react";
-import CartContext from "../context/cart/CartContext";
 
-const Nav = () => {
-  const { cartItems, showHideCart } = useContext(CartContext);
+const Nav = ({ handleCart, cart }) => {
 
   return (
     <nav>
@@ -19,11 +16,11 @@ const Nav = () => {
           <i
             className='fa fa-shopping-cart'
             aria-hidden='true'
-            onClick={showHideCart}
+            onClick={() => handleCart(true)}
           />
-          {cartItems.length > 0 && (
-            <div className='item__count'>
-              <span>{cartItems.length}</span>
+          {cart.length > 0 && (
+            <div className="item__count">
+              {cart.length}
             </div>
           )}
         </div>
